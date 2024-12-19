@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright (c) 2021, 2022 Università degli Studi di Milano. All rights reserved.
+ * SPDX-FileCopyrightText: Copyright (c) 2021, 2022 Universitï¿½ degli Studi di Milano. All rights reserved.
  *                         Copyright (c) 2023 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -128,8 +128,8 @@ void main()
     F0 = mix(F0, albedo, metallic);
 
     vec3 lightDirs[2];
-    lightDirs[0] = vec3(0.0f, 0.0f, 1.0f);
-    lightDirs[1] = vec3(0.0f, 1.0f, 0.0f);
+    lightDirs[0] = vec3(1.0f, 1.0f, 1.0f);
+    lightDirs[1] = vec3(1.0f, 1.0f, 1.0f);
 
     float intensities[2];
     intensities[0] = lightIntensity;
@@ -137,12 +137,12 @@ void main()
 	           
     // reflectance equation
     vec3 Lo = vec3(0.0);
-    for(int i = 0; i < 2; ++i) 
+    for(int i = 0; i < 1; ++i) 
     {
         // calculate per-light radiance
         vec3 L = normalize(lightDirs[i]);
         vec3 H = normalize(V + L);
-        vec3 radiance     = lightColor * intensities[i];        
+        vec3 radiance     = vec3(2.0/3.0, 2.0/3.0, 2.0/3.0) * intensities[i];    //lightColor * intensities[i];    
         
         // cook-torrance brdf
         float NDF = DistributionGGX(N, H, roughness);        
@@ -159,7 +159,7 @@ void main()
             
         // add to outgoing radiance Lo
         float NdotL = max(dot(N, L), 0.0);                
-        Lo += (kD * albedo / PI + specular) * radiance * NdotL; 
+        Lo += (albedo / PI) * radiance * NdotL; 
     }   
   
     vec3 ambient = albedo * ao * lightIntensity * 0.1;

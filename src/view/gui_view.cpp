@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright (c) 2021, 2022 Università degli Studi di Milano. All rights reserved.
+ * SPDX-FileCopyrightText: Copyright (c) 2021, 2022 Universitï¿½ degli Studi di Milano. All rights reserved.
  *                         Copyright (c) 2023 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -48,6 +48,7 @@
 #include <iostream>
 #include <vector>
 
+
 void glfw_error_callback(int err, const char* description)
 {
 	std::cerr << "GLFW Error: " << description << std::endl;
@@ -71,6 +72,7 @@ void GUIApplication::start(const char *meshfile)
 	std::cout << "Starting render loop..." << std::endl;
 
 	bool show_demo_window = true;
+  bool a = true;
 	while (!glfwWindowShouldClose(window.handle) && !quit) {
 		glfwPollEvents();
 
@@ -88,7 +90,7 @@ void GUIApplication::start(const char *meshfile)
 		if (gui.screenshot.on) {
 			_screenshot();
 		}
-
+    if (a) {_screenshot();a = false;}
 		_draw_onscreen();
 
 		//ImGui::ShowDemoWindow(&show_demo_window);
@@ -106,6 +108,8 @@ void GUIApplication::start(const char *meshfile)
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 		check_gl_error();
+
+    
 
 		glBindVertexArray(0);
 		glfwSwapBuffers(window.handle);
@@ -661,7 +665,7 @@ void GUIApplication::_draw_offscreen()
 	glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_COLOR, GL_DST_COLOR);
 	
 	static const float depth_clear = 1.0f;
-	static const float color_clear[] = { 0.29f, 0.29f, 0.29f, 1.0f };
+	static const float color_clear[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	static const float color_clear_screenshot[] = { 0.0f, 0.0f, 0.0f, 0.0f };
 	static const int id_clear = -1;
 
