@@ -58,6 +58,7 @@ target_link_libraries(umeshtools_core
     bary_utils
     cgltf
     eigen
+    tbb
 )
 
 target_include_directories(umeshtools_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
