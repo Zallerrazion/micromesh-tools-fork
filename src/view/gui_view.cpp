@@ -47,6 +47,7 @@
 
 #include <iostream>
 #include <vector>
+#include <chrono>
 
 
 void glfw_error_callback(int err, const char* description)
@@ -73,6 +74,8 @@ void GUIApplication::start(const char *meshfile, Vector3f camera_pos, Vector3f c
 
 	bool show_demo_window = true;
   bool a = true;
+
+  float time_ms;
 	
   // only one frame
   //while (!glfwWindowShouldClose(window.handle) && !quit) 
@@ -95,7 +98,10 @@ void GUIApplication::start(const char *meshfile, Vector3f camera_pos, Vector3f c
 	  control.camera.projection = perspective(radians(control.camera.fov), control.camera.aspect, 
                                             control.camera.near_clip, control.camera.far_clip);
 
+    auto t1 = std::chrono::high_resolution_clock::now();
 		_draw_offscreen();
+    auto t2 = std::chrono::high_resolution_clock::now();
+    time_ms = std::chrono::duration<float, std::milli>(t2 - t1).count();
 
 		if (gui.screenshot.on) {
 			_screenshot();
@@ -124,6 +130,21 @@ void GUIApplication::start(const char *meshfile, Vector3f camera_pos, Vector3f c
 		glBindVertexArray(0);
 		glfwSwapBuffers(window.handle);
 	}
+
+  //printf("%d vertices\n", (int)base.V.size());
+  //printf("%d faces\n", (int)base.F.size());
+  //printf("%d sub faces\n", (int)umesh.faces.size());
+  //printf("%d BVH nodes\n", (int)base.bvh.nodes.size());
+
+  //printf("size = %d (%d + %d + %d + %d)\n", 
+  //       base.V.size()*sizeof(float) + base.F.size()*sizeof(int) + umesh.faces.size()*sizeof(SubdivisionTri) + base.bvh.nodes.size() * sizeof(BVHNode),
+  //       base.V.size()*sizeof(float), base.F.size()*sizeof(int), umesh.faces.size()*sizeof(SubdivisionTri), base.bvh.nodes.size() * sizeof(BVHNode));
+
+
+  float size_Mb = base.V.size()*sizeof(float) + base.F.size()*sizeof(int) + umesh.faces.size()*sizeof(SubdivisionTri) + base.bvh.nodes.size() * sizeof(BVHNode);
+  size_Mb /= (1024*1024);
+
+  printf("{time_ms:r = %f  size_Mb:r = %f}\n", time_ms, size_Mb);
 
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
@@ -156,8 +177,6 @@ void GUIApplication::load_mesh(const std::string& meshfile, Vector3f camera_pos,
 	base.box = Box3();
 	for (int i = 0; i < base.V.rows(); ++i)
 		base.box.add(base.V.row(i));
-
-	SubdivisionMesh umesh = read_micromesh.get_subdivision_mesh();
 
 	if (reset_controls)
 		_init_transforms();
