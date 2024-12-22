@@ -119,55 +119,15 @@ void main()
         N = normalize(cross(t1, t2));
     }
 
-    // view direction
-    vec3 V = normalize( - vSurfacePos ); 
+    vec3  LiteRT_lightDir = vec3(1,1,1);
+    vec3  LiteRT_lightColor = vec3(2.0/3.0, 2.0/3.0, 2.0/3.0);
+    vec3  LiteRT_lightAmbient = vec3(0.25, 0.25, 0.25);
+    vec3  LiteRT_albedo = vec3(1,1,1);
 
-    vec3 albedo = useColorAttribute ? vColor.rgb : meshColor;
+    vec3 L = normalize(LiteRT_lightDir);
+    float NdotL = max(dot(N, L), 0.0); 
 
-    vec3 F0 = vec3(0.04); 
-    F0 = mix(F0, albedo, metallic);
-
-    vec3 lightDirs[2];
-    lightDirs[0] = vec3(1.0f, 1.0f, 1.0f);
-    lightDirs[1] = vec3(1.0f, 1.0f, 1.0f);
-
-    float intensities[2];
-    intensities[0] = lightIntensity;
-    intensities[1] = lightIntensity / 2.0f;
-	           
-    // reflectance equation
-    vec3 Lo = vec3(0.0);
-    for(int i = 0; i < 1; ++i) 
-    {
-        // calculate per-light radiance
-        vec3 L = normalize(lightDirs[i]);
-        vec3 H = normalize(V + L);
-        vec3 radiance     = vec3(2.0/3.0, 2.0/3.0, 2.0/3.0) * intensities[i];    //lightColor * intensities[i];    
-        
-        // cook-torrance brdf
-        float NDF = DistributionGGX(N, H, roughness);        
-        float G   = GeometrySmith(N, V, L, roughness);      
-        vec3 F    = fresnelSchlick(max(dot(H, V), 0.0), F0);       
-        
-        vec3 kS = F;
-        vec3 kD = vec3(1.0) - kS;
-        kD *= 1.0 - metallic;	  
-        
-        vec3 numerator    = NDF * G * F;
-        float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.0001;
-        vec3 specular     = numerator / denominator;  
-            
-        // add to outgoing radiance Lo
-        float NdotL = max(dot(N, L), 0.0);                
-        Lo += (albedo / PI) * radiance * NdotL; 
-    }   
-  
-    vec3 ambient = albedo * ao * lightIntensity * 0.1;
-    vec3 fcolor = ambient + Lo;
-
-    fcolor = fcolor / (fcolor + vec3(1.0));
-
-    fcolor = mix(albedo, fcolor, shadingWeight);
+    vec3 fcolor = NdotL*LiteRT_lightColor*LiteRT_albedo + LiteRT_lightAmbient;
 
     if (writeId > 0)
         id = gl_PrimitiveID;
