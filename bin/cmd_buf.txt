@@ -1,0 +1,13 @@
+decimate -max_error 1 -min_aspect_ratio 0.4 -max_cone_angle 120 -min_fn 1 -vertex_smoothing 1
+
+set_displacement_dirs -type normals
+
+tessellate -mode uniform -microexpansion 2
+
+displace
+
+set_displacement_dirs -type nearest
+
+displace
+
+minimize_prismoids
