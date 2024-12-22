@@ -54,9 +54,9 @@ void glfw_error_callback(int err, const char* description)
 	std::cerr << "GLFW Error: " << description << std::endl;
 }
 
-void GUIApplication::start(const char *meshfile)
+void GUIApplication::start(const char *meshfile, Vector3f camera_pos, Vector3f camera_dir)
 {
-	_init_glfw();
+	_init_glfw(1024, 1024);
 	//_init_transforms();
 	_init_gui();
 	_init_gl();
@@ -65,7 +65,7 @@ void GUIApplication::start(const char *meshfile)
 
 	// decimation data initialization
 	if (meshfile)
-		load_mesh(meshfile);
+		load_mesh(meshfile, camera_pos, camera_dir, true);
 
 	check_gl_error();
 
@@ -73,7 +73,10 @@ void GUIApplication::start(const char *meshfile)
 
 	bool show_demo_window = true;
   bool a = true;
-	while (!glfwWindowShouldClose(window.handle) && !quit) {
+	
+  // only one frame
+  //while (!glfwWindowShouldClose(window.handle) && !quit) 
+  {
 		glfwPollEvents();
 
 		if (gui.screenshot.on)
@@ -84,6 +87,13 @@ void GUIApplication::start(const char *meshfile)
 		ImGui::NewFrame();
 
 		_update_transforms();
+
+    control.camera.eye = camera_pos;
+    control.camera.target = camera_pos + camera_dir;
+
+	  control.camera.view = look_at(control.camera.eye, control.camera.target, control.camera.up);
+	  control.camera.projection = perspective(radians(control.camera.fov), control.camera.aspect, 
+                                            control.camera.near_clip, control.camera.far_clip);
 
 		_draw_offscreen();
 
@@ -124,7 +134,8 @@ void GUIApplication::start(const char *meshfile)
 	glfwTerminate();
 }
 
-void GUIApplication::load_mesh(const std::string& meshfile, bool reset_controls)
+void GUIApplication::load_mesh(const std::string& meshfile, Vector3f camera_pos, Vector3f camera_dir,
+                                bool reset_controls)
 {
 	GLTFReadInfo read_micromesh;
 	if (!read_gltf(meshfile, read_micromesh)) {
@@ -179,13 +190,10 @@ void GUIApplication::load_mesh(const std::string& meshfile, bool reset_controls)
 
 void GUIApplication::_init_transforms()
 {
-	control.offset = base.box.center().cast<float>();
+  control.offset = Vector3f(0,0,0);
+	control.r = 3.0f;
 
-	//control.theta = 0.0f;
-	//control.phi = M_PI_2;
-	control.r = base.box.diagonal().norm();
-
-	control.camera.fov = 39.6f;
+	control.camera.fov = 60.0f;
 	control.camera.aspect = window.width / (float)window.height;
 	control.camera.near_clip = 0.01f;
 	control.camera.far_clip = 2000.0f;
@@ -216,7 +224,7 @@ void GUIApplication::_init_gui()
 	window.background1 = Vector4f(0.3f, 0.3f, 0.3f, 1.0f);
 }
 
-void GUIApplication::_init_glfw()
+void GUIApplication::_init_glfw(int a_width, int a_height)
 {
 	if (!glfwInit()) {
 		std::cerr << "Failed to initialize GLFW" << std::endl;
@@ -236,8 +244,8 @@ void GUIApplication::_init_glfw()
 
 	const GLFWvidmode * mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
-	window.width = int(mode->width * 0.85f);
-	window.height = int(mode->height * 0.85f);
+	window.width = a_width > 0 ? a_width : int(mode->width * 0.85f);
+	window.height = a_height > 0 ? a_height : int(mode->height * 0.85f);
 
 	std::string title = std::string("Micro-Mesh Previewer");
 

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright (c) 2021, 2022 Università degli Studi di Milano. All rights reserved.
+ * SPDX-FileCopyrightText: Copyright (c) 2021, 2022 Universitï¿½ degli Studi di Milano. All rights reserved.
  *                         Copyright (c) 2023 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -221,13 +221,15 @@ struct GUIApplication {
 	GLuint wire_displacement_program;
 	GLuint quad_program;
 
-	void start(const char *meshfile);
+	void start(const char *meshfile, Vector3f camera_pos, Vector3f camera_dir);
 
-	void load_mesh(const std::string& meshfile, bool reset_controls = true);
+	void load_mesh(const std::string& meshfile, 
+                 Vector3f camera_pos, Vector3f camera_dir,
+                 bool reset_controls = true);
 
 	void _init_transforms();
 	void _init_gui();
-	void _init_glfw();
+	void _init_glfw(int a_width = -1, int a_height = -1);
 	void _init_gl();
 	void _init_gl_buffers(const MatrixX& V, const MatrixXi& F, GLMeshInfo& gl_mesh) const;
 	void _init_gl_buffers(GLSubdivisionMeshInfo& gl_umesh) const;

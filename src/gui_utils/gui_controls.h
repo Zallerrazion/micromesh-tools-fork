@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright (c) 2021, 2022 Università degli Studi di Milano. All rights reserved.
+ * SPDX-FileCopyrightText: Copyright (c) 2021, 2022 Universitï¿½ degli Studi di Milano. All rights reserved.
  *                         Copyright (c) 2023 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  *

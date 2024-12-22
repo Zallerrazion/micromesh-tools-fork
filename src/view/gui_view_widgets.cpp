@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright (c) 2021, 2022 Università degli Studi di Milano. All rights reserved.
+ * SPDX-FileCopyrightText: Copyright (c) 2021, 2022 Universitï¿½ degli Studi di Milano. All rights reserved.
  *                         Copyright (c) 2023 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -278,9 +278,9 @@ void GUIApplication::_input_widgets()
 		nfdresult_t result = NFD_OpenDialog("gltf", NULL, &file_path);
 
 		if (result == NFD_OKAY) {
-			std::cout << "Opening file " << file_path << std::endl;
-			load_mesh(file_path);
-			std::free(file_path);
+			//std::cout << "Opening file " << file_path << std::endl;
+			//load_mesh(file_path);
+			//std::free(file_path);
 		}
 		else if (result == NFD_CANCEL) {
 		}

@@ -32,7 +32,9 @@ int main(int argc, char *argv[])
 {
 	GUIApplication app;
 
-	app.start(argc > 1 ? argv[1] : nullptr);
+	app.start(argv[1], 
+            Vector3f(atof(argv[2]), atof(argv[3]), atof(argv[4])), 
+            Vector3f(atof(argv[5]), atof(argv[6]), atof(argv[7])));
 
 	return 0;
 }
