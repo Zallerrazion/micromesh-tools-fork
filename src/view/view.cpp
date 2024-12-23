@@ -34,7 +34,8 @@ int main(int argc, char *argv[])
 
 	app.start(argv[1], 
             Vector3f(atof(argv[2]), atof(argv[3]), atof(argv[4])), 
-            Vector3f(atof(argv[5]), atof(argv[6]), atof(argv[7])));
+            Vector3f(atof(argv[5]), atof(argv[6]), atof(argv[7])),
+            atoi(argv[8]), atoi(argv[9]));
 
 	return 0;
 }

@@ -221,7 +221,7 @@ struct GUIApplication {
 	GLuint wire_displacement_program;
 	GLuint quad_program;
 
-	void start(const char *meshfile, Vector3f camera_pos, Vector3f camera_dir);
+	void start(const char *meshfile, Vector3f camera_pos, Vector3f camera_dir, int width, int height);
 
 	void load_mesh(const std::string& meshfile, 
                  Vector3f camera_pos, Vector3f camera_dir,

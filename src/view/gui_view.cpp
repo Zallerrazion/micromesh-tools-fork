@@ -55,9 +55,9 @@ void glfw_error_callback(int err, const char* description)
 	std::cerr << "GLFW Error: " << description << std::endl;
 }
 
-void GUIApplication::start(const char *meshfile, Vector3f camera_pos, Vector3f camera_dir)
+void GUIApplication::start(const char *meshfile, Vector3f camera_pos, Vector3f camera_dir, int width, int height)
 {
-	_init_glfw(1024, 1024);
+	_init_glfw(width, height);
 	//_init_transforms();
 	_init_gui();
 	_init_gl();
