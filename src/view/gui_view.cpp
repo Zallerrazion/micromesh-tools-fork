@@ -82,8 +82,7 @@ void GUIApplication::start(const char *meshfile, Vector3f camera_pos, Vector3f c
   {
 		glfwPollEvents();
 
-		if (gui.screenshot.on)
-			framebuffer_size_callback(window.handle, window.width * gui.screenshot.multiplier, window.height * gui.screenshot.multiplier);
+		framebuffer_size_callback(window.handle, width, height);
 
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright (c) 2021, 2022 Università degli Studi di Milano. All rights reserved.
+ * SPDX-FileCopyrightText: Copyright (c) 2021, 2022 Universitï¿½ degli Studi di Milano. All rights reserved.
  *                         Copyright (c) 2023 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -195,6 +195,7 @@ void GUIApplication::mouse_button_callback(GLFWwindow* window, int button, int a
 
 void GUIApplication::framebuffer_size_callback(GLFWwindow* window, int w, int h)
 {
+  printf("Framebuffer size: %d x %d\n", w, h);
 	int iconified = glfwGetWindowAttrib(window, GLFW_ICONIFIED);
 	if (iconified == GLFW_FALSE) {
 		GUIApplication* app = (GUIApplication*)glfwGetWindowUserPointer(window);
