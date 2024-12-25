@@ -66,7 +66,7 @@ void main(void)
 {
     vec4 pos = vec4(position + displacementScale * displacement, 1.0f);
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * pos;
-    vNormal = (viewMatrix * modelMatrix * vec4(normal, 0.0f)).xyz;
+    vNormal = (modelMatrix * vec4(normal, 0.0f)).xyz;
     vSurfacePos = (viewMatrix * modelMatrix * pos).xyz;
     vColor = color;
 }
@@ -115,9 +115,9 @@ void main()
     vec3 t1 = dFdx(vSurfacePos);
     vec3 t2 = dFdy(vSurfacePos);
     vec3 N = normalize(vNormal);
-    if (flatShading > 0) {
-        N = normalize(cross(t1, t2));
-    }
+    //if (flatShading > 0) {
+    //    N = normalize(cross(t1, t2));
+    //}
 
     vec3  LiteRT_lightDir = vec3(1,1,1);
     vec3  LiteRT_lightColor = vec3(2.0/3.0, 2.0/3.0, 2.0/3.0);
