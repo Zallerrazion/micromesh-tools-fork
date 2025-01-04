@@ -691,8 +691,8 @@ void GUIApplication::_draw_offscreen()
 	glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_SRC_COLOR, GL_DST_COLOR);
 	
 	static const float depth_clear = 1.0f;
-	static const float color_clear[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	static const float color_clear_screenshot[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	static const float color_clear[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	static const float color_clear_screenshot[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 	static const int id_clear = -1;
 
 	check_gl_error();
